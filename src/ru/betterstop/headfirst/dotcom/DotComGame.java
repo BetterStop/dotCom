@@ -69,8 +69,11 @@ public class DotComGame {
             boolean flag = true;
             while (flag) {
                 userGuess = helper.getUserInput("Сделайте ход: ");
-               // System.out.println(userGuess);
-                if (userGuess != null && userGuess.length() == 2) flag = false;
+
+                if (userGuess != null &&
+                        userGuess.length() == 2 &&
+                        (userGuess.charAt(1) >= '0' && userGuess.charAt(1) <= '9') &&
+                        (userGuess.charAt(0) >= 'A' && userGuess.charAt(0) <= 'z')) flag = false;
                 else System.out.println("Не корекный ввод!");
             }
 
