@@ -73,7 +73,7 @@ public class DotComGame {
                 if (userGuess != null &&
                         userGuess.length() == 2 &&
                         (userGuess.charAt(1) >= '0' && userGuess.charAt(1) <= '9') &&
-                        (userGuess.charAt(0) >= 'A' && userGuess.charAt(0) <= 'z')) flag = false;
+                        (userGuess.charAt(0) >= 'a' && userGuess.charAt(0) <= 'g')) flag = false;
                 else System.out.println("Не корекный ввод!");
             }
 

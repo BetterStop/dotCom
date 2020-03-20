@@ -85,12 +85,12 @@ public class GameHelper {
     public void takeShot(String userGuid){
         int shot = Integer.parseInt(String.valueOf(userGuid.charAt(1))) * gridLength;
         if (userGuid.charAt(0) == 'a') shot += 0;
-        if (userGuid.charAt(0) == 'b') shot += 1;
-        if (userGuid.charAt(0) == 'c') shot += 2;
-        if (userGuid.charAt(0) == 'd') shot += 3;
-        if (userGuid.charAt(0) == 'e') shot += 4;
-        if (userGuid.charAt(0) == 'f') shot += 5;
-        if (userGuid.charAt(0) == 'g') shot += 6;
+        else if (userGuid.charAt(0) == 'b') shot += 1;
+        else if (userGuid.charAt(0) == 'c') shot += 2;
+        else if (userGuid.charAt(0) == 'd') shot += 3;
+        else if (userGuid.charAt(0) == 'e') shot += 4;
+        else if (userGuid.charAt(0) == 'f') shot += 5;
+        else if (userGuid.charAt(0) == 'g') shot += 6;
         if (grid[shot] == 0) grid[shot] = 3;
         else if (grid[shot] == 1) grid[shot] = 2;
     }
