@@ -26,7 +26,7 @@ public class GameHelper {
         return inputLine.toLowerCase();
     }
 
-    public ArrayList<String> placeDotCom(int comSize){
+    public ArrayList<String> placeDotCom(int comSize) {
         ArrayList<String> alphaCells = new ArrayList<>();
         String[] alphacoords = new String[comSize];
         String temp = null;
@@ -37,22 +37,46 @@ public class GameHelper {
 
         comCount++;
         int incr = 1;
-        if ((comCount % 2) == 1){
+        if ((comCount % 2) == 1) {
             incr = gridLength;
         }
 
-        while (!success & attempts++ < 200){
+        while (!success & attempts++ < 300) {
+            if (!ifClean(location)) {
+                coords = new int[comSize];
+            }
+            incr = incr == 1 ? gridLength : 1;
             location = (int) (Math.random() * gridSize);
+//            System.out.println("");
+//            System.out.println("Попытка -- " + attempts);
+//
+//            int k = 0;
+//            for (int i = 0; i < gridLength; i++) {
+//                System.out.print(i + "  ");
+//                for (int j = 0; j < gridLength; j++, k++) {
+//                    if (grid[k] == 0) System.out.print("-" + "  ");
+//                    else if (grid[k] == 1) System.out.print("*" + "  ");
+//                    else if (grid[k] == 3) System.out.print("·" + "  ");
+//                    else if (grid[k] == 2) System.out.print("x" + "  ");
+//                }
+//                System.out.println("");
+//            }
+//            System.out.println(incr);
+//            System.out.print("Пробуем " + location);
             int x = 0;
-            success = true;
-            while (success && x < comSize){
-                if (grid[location] == 0){
+            success = ifClean(location);
+            //success = true;
+            while (success && x < comSize) {
+                //System.out.print("Пробуем --- " + location);
+                if (ifClean(location)) {
+                    //System.out.println(" - OK");
                     coords[x++] = location;
                     location += incr;
-                    if (location >= gridSize){
-                        success = false;
-                    }
-                    if (x > 0 && (location % gridLength == 0)){
+                    //success = ifClean(location);
+//                    if (location >= gridSize){
+//                        success = false;
+//                    }
+                    if (x > 0 && x < 3 && (location % gridLength == 0)) {
                         success = false;
                     }
                 } else {
@@ -63,15 +87,17 @@ public class GameHelper {
         int x = 0;
         int row = 0;
         int column = 0;
-        while (x < comSize){
-            grid[coords[x]] = 1;
-            row = (int) (coords[x] / gridLength);
-            column = coords[x] % gridLength;
-            temp = String.valueOf(alphabet.charAt(column));
-
-            alphaCells.add(temp.concat(Integer.toString(row)));
-            x++;
+        if (coords[1] != 0 && coords[2] != 0) {
+            while (x < comSize) {
+                grid[coords[x]] = 1;
+                row = (int) (coords[x] / gridLength);
+                column = coords[x] % gridLength;
+                temp = String.valueOf(alphabet.charAt(column));
+                alphaCells.add(temp.concat(Integer.toString(row)));
+                x++;
+            }
         }
+        //System.out.println(alphaCells);
         return alphaCells;
     }
 
@@ -93,5 +119,33 @@ public class GameHelper {
         else if (userGuid.charAt(0) == 'g') shot += 6;
         if (grid[shot] == 0) grid[shot] = 3;
         else if (grid[shot] == 1) grid[shot] = 2;
+    }
+
+    private boolean ifClean(int loc) {
+        if (loc < 0 || loc > 48) {
+            return false;
+        } else if (loc == 0) {
+            return grid[loc] != 1 && grid[loc + 1] != 1 && grid[loc + gridLength] != 1 && grid[loc + gridLength + 1] != 1;
+        } else if (loc == gridLength - 1) {
+            return grid[loc] != 1 && grid[loc - 1] != 1 && grid[loc + gridLength] != 1 && grid[loc + gridLength - 1] != 1;
+        } else if (loc == gridSize - gridLength) {
+            return grid[loc] != 1 && grid[loc + 1] != 1 && grid[loc - gridLength] != 1 && grid[loc - gridLength + 1] != 1;
+        } else if (loc == gridSize - 1) {
+            return grid[loc] != 1 && grid[loc - 1] != 1 && grid[loc - gridLength] != 1 && grid[loc - gridLength - 1] != 1;
+        } else if (loc > 0 && loc < gridLength-1){
+            return grid[loc] != 1 && grid[loc - 1] != 1 && grid[loc + 1] != 1 && grid[loc + gridLength] != 1 && grid[loc + gridLength - 1] != 1 && grid[loc + gridLength + 1] != 1;
+        } else if (loc > gridSize - gridLength && loc < gridSize-1) {
+            return grid[loc] != 1 && grid[loc - 1] != 1 && grid[loc + 1] != 1 && grid[loc - gridLength] != 1 && grid[loc - gridLength - 1] != 1 && grid[loc - gridLength + 1] != 1;
+        } else if (loc % gridLength == 0) {
+            return grid[loc] != 1 && grid[loc + 1] != 1 && grid[loc - gridLength] != 1 && grid[loc - gridLength + 1] != 1 && grid[loc + gridLength] != 1 && grid[loc + gridLength + 1] != 1;
+        } else if ((loc + 1) % gridLength == 0) {
+            return grid[loc] != 1 && grid[loc - 1] != 1 && grid[loc - gridLength] != 1 && grid[loc - gridLength - 1] != 1 && grid[loc + gridLength] != 1 && grid[loc + gridLength - 1] != 1;
+        } else return grid[loc] != 1 && grid[loc - 1] != 1 && grid[loc + 1] != 1 && grid[loc - gridLength] != 1 && grid[loc - gridLength - 1] != 1 && grid[loc - gridLength + 1] != 1 && grid[loc + gridLength] != 1 && grid[loc + gridLength - 1] != 1 && grid[loc + gridLength + 1] != 1;
+    }
+
+    public void gridInStart() {
+        for(int i = 0; i < grid.length; i++){
+            grid[i] = 0;
+        }
     }
 }

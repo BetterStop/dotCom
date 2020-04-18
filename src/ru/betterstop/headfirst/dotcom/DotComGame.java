@@ -1,7 +1,7 @@
 package ru.betterstop.headfirst.dotcom;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class DotComGame {
     private GameHelper helper = new GameHelper();
@@ -9,12 +9,10 @@ public class DotComGame {
     private int numOfGuesses = 0;
 
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
         DotComGame game = new DotComGame();
         game.setUpGame();
-
         game.startPlaying();
-
     }
 
     public void showPlace(){
@@ -29,33 +27,45 @@ public class DotComGame {
             System.out.print(i + "  ");
             for (int j = 0; j < gridLen; j++, k++){
                     if(grid[k] == 0) System.out.print("-" +"  ");
-                    else if(grid[k] == 1) System.out.print("-" +"  ");
+                    else if(grid[k] == 1) System.out.print("*" +"  ");
                     else if(grid[k] == 3) System.out.print("·" +"  ");
                     else if(grid[k] == 2) System.out.print("x" +"  ");
             }
            System.out.println("");
         }
-
     }
 
     public  void setUpGame(){
+        boolean itsOk = false;
         DotCom one = new DotCom();
         one.setName("Pets.com");
         DotCom two = new DotCom();
         two.setName("eToys.com");
         DotCom three = new DotCom();
         three.setName("Go2.com");
-        dotComsList.add(one);
-        dotComsList.add(two);
-        dotComsList.add(three);
+        DotCom four = new DotCom();
+        four.setName("tsvc.kz");
+        DotCom fife = new DotCom();
+        fife.setName("congo.kz");
 
-        System.out.println("Ваша цель - потопить три корабля");
-        System.out.println("Pets.com, eToys.com, Go2.com");
+            dotComsList.add(one);
+            dotComsList.add(two);
+            dotComsList.add(three);
+            dotComsList.add(four);
+            dotComsList.add(fife);
+
+        System.out.println("Ваша цель - потопить пять кораблей");
+        System.out.println("Бисмарк, Конго, Тирпиц, Фусо, Ямато");
         System.out.println("Попытайтесь потомить их за минимальное количество ходов");
-
-        for (DotCom dotComToSet: dotComsList){
-            ArrayList<String> newLocation = helper.placeDotCom(3);
-            dotComToSet.setLocationCells(newLocation);
+        while(!itsOk) {
+            itsOk = true;
+            for (DotCom dotComToSet : dotComsList) {
+                ArrayList<String> newLocation = helper.placeDotCom(3);
+                if (newLocation.isEmpty()) {
+                    itsOk = false;
+                    helper.gridInStart();
+                } else dotComToSet.setLocationCells(newLocation);
+            }
         }
         showPlace();
 //        System.out.println(dotComsList.get(0).getLocationCells());
@@ -63,20 +73,17 @@ public class DotComGame {
 //        System.out.println(dotComsList.get(2).getLocationCells());
     }
 
-    public void startPlaying(){
+    public void startPlaying() throws IOException {
         while (!dotComsList.isEmpty()){
             String userGuess = null;
             boolean flag = true;
             while (flag) {
                 userGuess = helper.getUserInput("Сделайте ход: ");
-
-                if (userGuess != null &&
-                        userGuess.length() == 2 &&
+                if (userGuess != null && userGuess.length() == 2 &&
                         (userGuess.charAt(1) >= '0' && userGuess.charAt(1) <= '9') &&
                         (userGuess.charAt(0) >= 'a' && userGuess.charAt(0) <= 'g')) flag = false;
                 else System.out.println("Не корекный ввод!");
             }
-
             checkUserGuess(userGuess);
             helper.takeShot(userGuess);
             showPlace();
@@ -100,14 +107,15 @@ public class DotComGame {
         System.out.println(result);
     }
 
-    public void finishGame(){
-        System.out.println("Все корабли ушли ко дну! Ваши акции теперь ни чего не стоят.");
+    public void finishGame() throws IOException {
+        System.out.println("Все корабли ушли ко дну!");
         if (numOfGuesses <= 18){
             System.out.println("Это заняло у Вас всего " + numOfGuesses + " попыток.");
-            System.out.println("Вы успели выбраться до того, как ваши вложения утонули.");
+            System.out.println("Вы показали хороший результат.");
         } else{
             System.out.println("Это заняло у Вас довольно много времени. " + numOfGuesses + " попыток.");
-            System.out.println("Рыбы водят хороводы вокруг ваших вложений.");
+            System.out.println("Тем неменее Вы победили.");
         }
+        System.in.read();
     }
 }
