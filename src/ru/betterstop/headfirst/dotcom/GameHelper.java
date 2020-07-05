@@ -119,6 +119,7 @@ public class GameHelper {
         else if (userGuid.charAt(0) == 'g') shot += 6;
         if (grid[shot] == 0) grid[shot] = 3;
         else if (grid[shot] == 1) grid[shot] = 2;
+
     }
 
     private boolean ifClean(int loc) {
@@ -146,6 +147,14 @@ public class GameHelper {
     public void gridInStart() {
         for(int i = 0; i < grid.length; i++){
             grid[i] = 0;
+        }
+    }
+
+    public void cleanScreen(){
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }

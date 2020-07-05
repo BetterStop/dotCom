@@ -27,7 +27,7 @@ public class DotComGame {
             System.out.print(i + "  ");
             for (int j = 0; j < gridLen; j++, k++){
                     if(grid[k] == 0) System.out.print("-" +"  ");
-                    else if(grid[k] == 1) System.out.print("*" +"  ");
+                    else if(grid[k] == 1) System.out.print("-" +"  ");
                     else if(grid[k] == 3) System.out.print("·" +"  ");
                     else if(grid[k] == 2) System.out.print("x" +"  ");
             }
@@ -38,15 +38,15 @@ public class DotComGame {
     public  void setUpGame(){
         boolean itsOk = false;
         DotCom one = new DotCom();
-        one.setName("Pets.com");
+        one.setName("Бисмарк");
         DotCom two = new DotCom();
-        two.setName("eToys.com");
+        two.setName("Конго");
         DotCom three = new DotCom();
-        three.setName("Go2.com");
+        three.setName("Тирпиц");
         DotCom four = new DotCom();
-        four.setName("tsvc.kz");
+        four.setName("Фусо");
         DotCom fife = new DotCom();
-        fife.setName("congo.kz");
+        fife.setName("Ямато");
 
             dotComsList.add(one);
             dotComsList.add(two);
@@ -54,9 +54,9 @@ public class DotComGame {
             dotComsList.add(four);
             dotComsList.add(fife);
 
-        System.out.println("Ваша цель - потопить пять кораблей");
+        System.out.println("Ваша цель - потопить пять трехпалубных кораблей");
         System.out.println("Бисмарк, Конго, Тирпиц, Фусо, Ямато");
-        System.out.println("Попытайтесь потомить их за минимальное количество ходов");
+        System.out.println("Попытайтесь потопить их за минимальное количество ходов");
         while(!itsOk) {
             itsOk = true;
             for (DotCom dotComToSet : dotComsList) {
@@ -80,7 +80,7 @@ public class DotComGame {
             while (flag) {
                 userGuess = helper.getUserInput("Сделайте ход: ");
                 if (userGuess != null && userGuess.length() == 2 &&
-                        (userGuess.charAt(1) >= '0' && userGuess.charAt(1) <= '9') &&
+                        (userGuess.charAt(1) >= '0' && userGuess.charAt(1) <= '6') &&
                         (userGuess.charAt(0) >= 'a' && userGuess.charAt(0) <= 'g')) flag = false;
                 else System.out.println("Не корекный ввод!");
             }
@@ -92,6 +92,7 @@ public class DotComGame {
     }
 
     public void checkUserGuess(String userGuess){
+        helper.cleanScreen();
         numOfGuesses++;
         String result = "Мимо";
         for (DotCom dotComToTest: dotComsList){

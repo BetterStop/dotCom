@@ -22,7 +22,7 @@ public class DotCom {
 
             if (locationCells.isEmpty()) {
                 result = "Потопил";
-                System.out.println("Ой! Вы потопили " + name + ": (");
+                System.out.println("Ой! Вы потопили " + name + " : (");
             } else {
                 result = "Попал";
             }
