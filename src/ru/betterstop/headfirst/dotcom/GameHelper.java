@@ -8,9 +8,9 @@ import java.util.ArrayList;
 public class GameHelper {
 
     private static final String alphabet = "abcdefg";
-    private int gridLength = 7;
-    private int gridSize = 49;
-    private int[] grid = new int[gridSize];
+    private final int gridLength = 7;
+    private final  int gridSize = 49;
+    private final  int[] grid = new int[gridSize];
     private int comCount = 0;
 
     public String getUserInput(String prompt){
@@ -23,13 +23,14 @@ public class GameHelper {
         }catch (IOException e){
             System.out.println("IOException: " + e);
         }
+        assert inputLine != null;
         return inputLine.toLowerCase();
     }
 
     public ArrayList<String> placeDotCom(int comSize) {
         ArrayList<String> alphaCells = new ArrayList<>();
-        String[] alphacoords = new String[comSize];
-        String temp = null;
+        //String[] alphacoords = new String[comSize];
+        String temp;
         int[] coords = new int[comSize];
         int attempts = 0;
         boolean success = false;
@@ -85,8 +86,8 @@ public class GameHelper {
             }
         }
         int x = 0;
-        int row = 0;
-        int column = 0;
+        int row;
+        int column;
         if (coords[1] != 0 && coords[2] != 0) {
             while (x < comSize) {
                 grid[coords[x]] = 1;
