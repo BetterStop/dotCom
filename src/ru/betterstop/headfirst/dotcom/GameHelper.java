@@ -9,18 +9,18 @@ public class GameHelper {
 
     private static final String alphabet = "abcdefg";
     private final int gridLength = 7;
-    private final  int gridSize = 49;
-    private final  int[] grid = new int[gridSize];
+    private final int gridSize = 49;
+    private final int[] grid = new int[gridSize];
     private int comCount = 0;
 
-    public String getUserInput(String prompt){
+    public String getUserInput(String prompt) {
         String inputLine = null;
         System.out.print(prompt + " ");
-        try{
+        try {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             inputLine = br.readLine();
-            if(inputLine.length() == 0) return null;
-        }catch (IOException e){
+            if (inputLine.length() == 0) return null;
+        } catch (IOException e) {
             System.out.println("IOException: " + e);
         }
         assert inputLine != null;
@@ -102,14 +102,15 @@ public class GameHelper {
         return alphaCells;
     }
 
-    public int getGridLength(){
+    public int getGridLength() {
         return gridLength;
     }
-    public int[] getGrid(){
+
+    public int[] getGrid() {
         return grid;
     }
 
-    public void takeShot(String userGuid){
+    public void takeShot(String userGuid) {
         int shot = Integer.parseInt(String.valueOf(userGuid.charAt(1))) * gridLength;
         if (userGuid.charAt(0) == 'a') shot += 0;
         else if (userGuid.charAt(0) == 'b') shot += 1;
@@ -134,24 +135,25 @@ public class GameHelper {
             return grid[loc] != 1 && grid[loc + 1] != 1 && grid[loc - gridLength] != 1 && grid[loc - gridLength + 1] != 1;
         } else if (loc == gridSize - 1) {
             return grid[loc] != 1 && grid[loc - 1] != 1 && grid[loc - gridLength] != 1 && grid[loc - gridLength - 1] != 1;
-        } else if (loc > 0 && loc < gridLength-1){
+        } else if (loc > 0 && loc < gridLength - 1) {
             return grid[loc] != 1 && grid[loc - 1] != 1 && grid[loc + 1] != 1 && grid[loc + gridLength] != 1 && grid[loc + gridLength - 1] != 1 && grid[loc + gridLength + 1] != 1;
-        } else if (loc > gridSize - gridLength && loc < gridSize-1) {
+        } else if (loc > gridSize - gridLength && loc < gridSize - 1) {
             return grid[loc] != 1 && grid[loc - 1] != 1 && grid[loc + 1] != 1 && grid[loc - gridLength] != 1 && grid[loc - gridLength - 1] != 1 && grid[loc - gridLength + 1] != 1;
         } else if (loc % gridLength == 0) {
             return grid[loc] != 1 && grid[loc + 1] != 1 && grid[loc - gridLength] != 1 && grid[loc - gridLength + 1] != 1 && grid[loc + gridLength] != 1 && grid[loc + gridLength + 1] != 1;
         } else if ((loc + 1) % gridLength == 0) {
             return grid[loc] != 1 && grid[loc - 1] != 1 && grid[loc - gridLength] != 1 && grid[loc - gridLength - 1] != 1 && grid[loc + gridLength] != 1 && grid[loc + gridLength - 1] != 1;
-        } else return grid[loc] != 1 && grid[loc - 1] != 1 && grid[loc + 1] != 1 && grid[loc - gridLength] != 1 && grid[loc - gridLength - 1] != 1 && grid[loc - gridLength + 1] != 1 && grid[loc + gridLength] != 1 && grid[loc + gridLength - 1] != 1 && grid[loc + gridLength + 1] != 1;
+        } else
+            return grid[loc] != 1 && grid[loc - 1] != 1 && grid[loc + 1] != 1 && grid[loc - gridLength] != 1 && grid[loc - gridLength - 1] != 1 && grid[loc - gridLength + 1] != 1 && grid[loc + gridLength] != 1 && grid[loc + gridLength - 1] != 1 && grid[loc + gridLength + 1] != 1;
     }
 
     public void gridInStart() {
-        for(int i = 0; i < grid.length; i++){
+        for (int i = 0; i < grid.length; i++) {
             grid[i] = 0;
         }
     }
 
-    public void cleanScreen(){
+    public void cleanScreen() {
        /* try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         }catch (Exception e){
